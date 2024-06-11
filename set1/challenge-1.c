@@ -2,52 +2,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include "encodings.h"
 
 #define BITS_PER_BASE64_LETTER 6
 
-static inline char hex_digit_to_int_val(char digit)
-{
-    // 0-9 digits
-    if (digit >= 48 && digit <= 57)
-    {
-        return (digit - 48);
-    }
-    // Lowercase hex values
-    else if (digit >= 97 && digit <= 102)
-    {
-        // Render 'a' as 10, etc.
-        return (digit - 87);
-    }
-    else
-    {
-        fprintf(stderr, "Encountered invalid hex digit\n");
-        exit(EXIT_FAILURE);
-    }
-}
 
 int main(int argc, char **argv)
 {
-    // Populate base64_encode
-    char base64_encode[65] = {0};
-
-    // Upper case letters
-    for (uint8_t i = 0; i < 26; i++)
-    {
-        // 65 for 'A'
-        base64_encode[i] = (char)(65 + i);
-    }
-    for (uint8_t i = 0; i < 26; i++)
-    {
-        // 97 for 'a', with offset 26 for the upper case letters added in loop above
-        base64_encode[26 + i] = (char)(97 + i);
-    }
-    for (uint8_t i = 0; i < 10; i++)
-    {
-        base64_encode[i + 52] = (char)(i + 48);
-    }
-    base64_encode[62] = '+';
-    base64_encode[63] = '/';
-
+    populate_base64_map();
     const char *input = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d";
 
     size_t input_num_chars = strlen(input);
@@ -62,10 +24,7 @@ int main(int argc, char **argv)
     }
 
     char input_as_bytes[input_num_bytes];
-    for (size_t i = 0; i < input_num_bytes; i++)
-    {
-        input_as_bytes[i] = hex_digit_to_int_val(input[2 * i]) << 4 | hex_digit_to_int_val(input[2 * i + 1]);
-    }
+    parse_hex_string(input, input_as_bytes);
 
     // 8 bits of a base64 ASCII character correspond to 6 bits of input, which is a 4/3 ratio in bytes.
     // Then add any remaining bytes for padding (encoded as '=')
@@ -108,7 +67,7 @@ int main(int argc, char **argv)
         {
             bit_val = left_bits;
         }
-        output[i] = base64_encode[bit_val];
+        output[i] = base64_map[bit_val];
         input_bit_offset += BITS_PER_BASE64_LETTER;
     }
 
