@@ -1,5 +1,8 @@
 #ifndef ENCODINGS_H
 #define ENCODINGS_H
+
+#define BITS_PER_BASE64_LETTER 6
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -30,4 +33,8 @@ static void populate_base64_map()
 
 char hex_digit_to_int_val(char digit);
 int parse_hex_string(const char *input, char *output_buf);
+
+// Allocates a base64 encoded string from a series of bytes. Caller is responsible for freeing
+char* base64_encode(char *input, size_t input_num_bytes);
+
 #endif
