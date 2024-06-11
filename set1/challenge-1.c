@@ -26,5 +26,6 @@ int main(int argc, char **argv)
     printf("Expected base64 string is: %s\n", expected_output);
     printf("Actual base64 string is: %s\n", output);
 
+    free(input_as_bytes);
     free(output);
 }
