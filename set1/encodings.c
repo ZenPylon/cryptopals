@@ -23,21 +23,24 @@ char hex_digit_to_int_val(char digit)
     }
 }
 
-int parse_hex_string(const char *input, char *output_buf)
+char* parse_hex_string(const char *input)
 {
     size_t input_num_chars = strlen(input);
     size_t input_num_bytes = input_num_chars / 2;
+    char *output_buf = malloc(input_num_bytes);
 
     // Make sure our string-encoded hex input is valid
     if (input_num_bytes % 2 != 0 || input_num_chars % 2 != 0)
     {
-        return -1;
+        fprintf(stderr, "Invalid hex string in input");
+        return NULL;
     }
 
     for (size_t i = 0; i < input_num_bytes; i++)
     {
         output_buf[i] = hex_digit_to_int_val(input[2 * i]) << 4 | hex_digit_to_int_val(input[2 * i + 1]);
     }
+    return output_buf;
 }
 
 char* base64_encode(char *input, size_t input_num_bytes)

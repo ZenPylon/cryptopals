@@ -12,9 +12,8 @@ int main(int argc, char **argv)
     size_t input_num_chars = strlen(input);
     size_t input_num_bytes = input_num_chars / 2;
 
-    char input_as_bytes[input_num_bytes];
-    int res = parse_hex_string(input, input_as_bytes);
-    if (res == -1)
+    char *input_as_bytes = parse_hex_string(input);
+    if (input_as_bytes == NULL)
     {
         fprintf(stderr, "Invalid hex string in input");
         exit(EXIT_FAILURE);
