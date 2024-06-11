@@ -86,5 +86,6 @@ char* base64_encode(char *input, size_t input_num_bytes)
         output[i] = base64_map[bit_val];
         input_bit_offset += BITS_PER_BASE64_LETTER;
     }
+    // TODO -- add padding with '=' character(s)
     return output;
 }
