@@ -22,7 +22,7 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    // Use a lower number of of unique chars as a proxy for regular (e.g. English) text vs random bytes
+    // A larger number of common letters indicates more plausible plaintext
     const char* common_letters = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     size_t best_common_letter_score = 0;
     char best_key_guess = 0;
