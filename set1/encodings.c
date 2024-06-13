@@ -1,7 +1,71 @@
-#include "encodings.h"
 #include <string.h>
+#include <stdio.h>
+#include "encodings.h"
 
-char base64_map[65];
+
+char base64_encode_map[64];
+char base64_decode_map[256];
+
+void init_base64_module()
+{
+    populate_base64_encode_map();
+    populate_base64_decode_map();
+}
+
+void populate_base64_encode_map()
+{
+    // Upper case letters
+    for (size_t i = 0; i < 26; i++)
+    {
+        // 65 for 'A'
+        base64_encode_map[i] = (char)(65 + i);
+    }
+    for (size_t i = 0; i < 26; i++)
+    {
+        // 97 for 'a', with offset 26 for the upper case letters added in loop above
+        base64_encode_map[26 + i] = (char)(97 + i);
+    }
+    for (size_t i = 0; i < 10; i++)
+    {
+        base64_encode_map[i + 52] = (char)(i + 48);
+    }
+    base64_encode_map[62] = '+';
+    base64_encode_map[63] = '/';
+}
+
+void populate_base64_decode_map()
+{
+    char A = 'A';
+    char a = 'a';
+    char one = '1';
+    for (size_t i = 0; i < 26; i++)
+    {
+        base64_decode_map[A + i] = i;
+    }
+    for (size_t i = 0; i < 26; i++)
+    {
+        base64_decode_map[a + i] = 26 + i;
+    }
+    for (size_t i = 0; i < 10; i++)
+    {
+        base64_decode_map[one + i] = 52 + i;
+    }
+    base64_decode_map['+'] = 62;
+    base64_decode_map['/'] = 63;
+    base64_decode_map['='] = 0;
+ }
+
+inline char base64_decode_char(char input)
+{
+    // 'A' and '=' map to 0. Anything else is an encoding error
+    if (base64_decode_map[input] == 0 && input != 'A' && input != '=')
+    {
+        fprintf(stderr, "Invalid base64 char\n");
+        exit(EXIT_FAILURE);
+    }
+    return base64_decode_map[input];
+}
+
 
 char hex_digit_to_int_val(char digit)
 {
@@ -43,7 +107,7 @@ char* parse_hex_string(const char *input)
     return output_buf;
 }
 
-char* base64_encode(char *input, size_t input_num_bytes)
+char* base64_encode_mapode_mapode(char *input, size_t input_num_bytes)
 {
     // 8 bits of a base64 ASCII character correspond to 6 bits of input, which is a 4/3 ratio in bytes.
     // Then add any remaining bytes for padding (encoded as '=')
@@ -86,7 +150,7 @@ char* base64_encode(char *input, size_t input_num_bytes)
         {
             bit_val = left_bits;
         }
-        output[i] = base64_map[bit_val];
+        output[i] = base64_encode_map[bit_val];
         input_bit_offset += BITS_PER_BASE64_LETTER;
     }
     // TODO -- add padding with '=' character(s)
