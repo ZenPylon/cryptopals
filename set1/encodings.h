@@ -7,8 +7,8 @@
 #include <stdio.h>
 
 // Populate base64_encode
-extern char base64_encode_map[65] = {0};
-extern char base64_decode_map[256] = {0};
+extern char base64_encode_map[64];
+extern char base64_decode_map[256];
 
 
 void init_base64_module();

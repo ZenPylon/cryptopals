@@ -3,8 +3,8 @@
 #include "encodings.h"
 
 
-char base64_encode_map[64];
-char base64_decode_map[256];
+char base64_encode_map[64] = { 0 };
+char base64_decode_map[256] = { 0 };
 
 void init_base64_module()
 {
@@ -37,7 +37,7 @@ void populate_base64_decode_map()
 {
     char A = 'A';
     char a = 'a';
-    char one = '1';
+    char zero = '0';
     for (size_t i = 0; i < 26; i++)
     {
         base64_decode_map[A + i] = i;
@@ -48,7 +48,7 @@ void populate_base64_decode_map()
     }
     for (size_t i = 0; i < 10; i++)
     {
-        base64_decode_map[one + i] = 52 + i;
+        base64_decode_map[zero + i] = 52 + i;
     }
     base64_decode_map['+'] = 62;
     base64_decode_map['/'] = 63;
