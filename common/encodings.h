@@ -18,8 +18,10 @@ void populate_base64_decode_map();
 char hex_digit_to_int_val(char digit);
 char* parse_hex_string(const char *input);
 
-// Allocates a base64 encoded string from a series of bytes. Caller is responsible for freeing
 char* base64_encode(char *input, size_t input_num_bytes);
 char* base64_decode(char *input, size_t input_num_bytes);
+
+
+char *get_english_digram_score(char *string, size_t length);
 
 #endif
