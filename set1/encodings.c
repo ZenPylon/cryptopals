@@ -55,7 +55,7 @@ void populate_base64_decode_map()
     base64_decode_map['='] = 0;
  }
 
-inline char base64_decode_char(char input)
+char base64_decode_char(char input)
 {
     // 'A' and '=' map to 0. Anything else is an encoding error
     if (base64_decode_map[input] == 0 && input != 'A' && input != '=')
@@ -107,7 +107,7 @@ char* parse_hex_string(const char *input)
     return output_buf;
 }
 
-char* base64_encode_mapode_mapode(char *input, size_t input_num_bytes)
+char* base64_encode(char *input, size_t input_num_bytes)
 {
     // 8 bits of a base64 ASCII character correspond to 6 bits of input, which is a 4/3 ratio in bytes.
     // Then add any remaining bytes for padding (encoded as '=')
@@ -154,5 +154,43 @@ char* base64_encode_mapode_mapode(char *input, size_t input_num_bytes)
         input_bit_offset += BITS_PER_BASE64_LETTER;
     }
     // TODO -- add padding with '=' character(s)
+    return output;
+}
+
+char *base64_decode(char *input, size_t num_chars)
+{
+    if (num_chars % 4 != 0)
+    {
+        fprintf(stderr, "Invalid base64 string");
+        exit(EXIT_FAILURE);
+    }
+
+    char *output = calloc(num_chars * 4, 1);
+    
+    for (size_t i = 0; i < num_chars; i++)
+    {
+        char decoded_byte = base64_decode_char(input[i]);
+        // 6 bits per base64 char
+        size_t left_byte = 6 * i / 8;
+        size_t remainder = i % 4;
+
+        if (remainder == 0)
+        {
+            output[left_byte] = decoded_byte << 2;
+        }
+        else if (remainder == 1)
+        {
+            output[left_byte] |= decoded_byte >> 4;
+            output[left_byte + 1] |= decoded_byte << 4;
+        }
+        else if (remainder == 2)
+        {
+            output[left_byte] |= decoded_byte >> 2;
+            output[left_byte + 1] |= decoded_byte << 6;
+        }
+        else {
+            output[left_byte] |= decoded_byte;
+        }
+    }
     return output;
 }
