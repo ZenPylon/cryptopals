@@ -15,64 +15,62 @@ void init_base64_module()
 
 void populate_monogram_freq()
 {
-    // Uppercase and lower case letters are considered identical 
-    //(this likely isn't true, but probably reasonable approximation))
-    
-    // Uppercase
-    monogram_freq['A'] = 8.55;
-    monogram_freq['B'] = 1.60;
-    monogram_freq['C'] = 3.16;
-    monogram_freq['D'] = 3.87;
-    monogram_freq['E'] = 2.10;
-    monogram_freq['F'] = 2.18;
-    monogram_freq['G'] = 2.09;
-    monogram_freq['H'] = 4.96;
-    monogram_freq['I'] = 7.33;
-    monogram_freq['J'] = 0.22;
-    monogram_freq['K'] = 0.81;
-    monogram_freq['L'] = 4.21;
-    monogram_freq['M'] = 2.53;
-    monogram_freq['N'] = 7.17;
-    monogram_freq['O'] = 7.47;
-    monogram_freq['P'] = 2.07;
-    monogram_freq['Q'] = 0.10;
-    monogram_freq['R'] = 6.33;
-    monogram_freq['S'] = 6.73;
-    monogram_freq['T'] = 8.94;
-    monogram_freq['U'] = 2.68;
-    monogram_freq['V'] = 1.06;
-    monogram_freq['W'] = 1.83;
-    monogram_freq['X'] = 0.19;
-    monogram_freq['Y'] = 1.72;
-    monogram_freq['Z'] = 0.11;
+    // Letter frequencies taken from 
+    // http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/
+    monogram_freq['a'] = 8.55f;
+    monogram_freq['b'] = 1.60f;
+    monogram_freq['c'] = 3.16f;
+    monogram_freq['d'] = 3.87f;
+    monogram_freq['e'] = 2.10f;
+    monogram_freq['f'] = 2.18f;
+    monogram_freq['g'] = 2.09f;
+    monogram_freq['h'] = 4.96f;
+    monogram_freq['i'] = 7.33f;
+    monogram_freq['j'] = 0.22f;
+    monogram_freq['k'] = 0.81f;
+    monogram_freq['l'] = 4.21f;
+    monogram_freq['m'] = 2.53f;
+    monogram_freq['n'] = 7.17f;
+    monogram_freq['o'] = 7.47f;
+    monogram_freq['p'] = 2.07f;
+    monogram_freq['q'] = 0.10f;
+    monogram_freq['r'] = 6.33f;
+    monogram_freq['s'] = 6.73f;
+    monogram_freq['t'] = 8.94f;
+    monogram_freq['u'] = 2.68f;
+    monogram_freq['v'] = 1.06f;
+    monogram_freq['w'] = 1.83f;
+    monogram_freq['x'] = 0.19f;
+    monogram_freq['y'] = 1.72f;
+    monogram_freq['z'] = 0.11f;
 
-    // Lowercase
-    monogram_freq['a'] = 8.55;
-    monogram_freq['b'] = 1.60;
-    monogram_freq['c'] = 3.16;
-    monogram_freq['d'] = 3.87;
-    monogram_freq['e'] = 2.10;
-    monogram_freq['f'] = 2.18;
-    monogram_freq['g'] = 2.09;
-    monogram_freq['h'] = 4.96;
-    monogram_freq['i'] = 7.33;
-    monogram_freq['j'] = 0.22;
-    monogram_freq['k'] = 0.81;
-    monogram_freq['l'] = 4.21;
-    monogram_freq['m'] = 2.53;
-    monogram_freq['n'] = 7.17;
-    monogram_freq['o'] = 7.47;
-    monogram_freq['p'] = 2.07;
-    monogram_freq['q'] = 0.10;
-    monogram_freq['r'] = 6.33;
-    monogram_freq['s'] = 6.73;
-    monogram_freq['t'] = 8.94;
-    monogram_freq['u'] = 2.68;
-    monogram_freq['v'] = 1.06;
-    monogram_freq['w'] = 1.83;
-    monogram_freq['x'] = 0.19;
-    monogram_freq['y'] = 1.72;
-    monogram_freq['z'] = 0.11;
+    // Arbitrarily reduce weight of capital letters, since they only occur for proper nouns and beginnings of sentences
+    monogram_freq['A'] = 8.55f / 10.f;
+    monogram_freq['B'] = 1.60f / 10.f;
+    monogram_freq['C'] = 3.16f / 10.f;
+    monogram_freq['D'] = 3.87f / 10.f;
+    monogram_freq['E'] = 2.10f / 10.f;
+    monogram_freq['F'] = 2.18f / 10.f;
+    monogram_freq['G'] = 2.09f / 10.f;
+    monogram_freq['H'] = 4.96f / 10.f;
+    monogram_freq['I'] = 7.33f / 10.f;
+    monogram_freq['J'] = 0.22f / 10.f;
+    monogram_freq['K'] = 0.81f / 10.f;
+    monogram_freq['L'] = 4.21f / 10.f;
+    monogram_freq['M'] = 2.53f / 10.f;
+    monogram_freq['N'] = 7.17f / 10.f;
+    monogram_freq['O'] = 7.47f / 10.f;
+    monogram_freq['P'] = 2.07f / 10.f;
+    monogram_freq['Q'] = 0.10f / 10.f;
+    monogram_freq['R'] = 6.33f / 10.f;
+    monogram_freq['S'] = 6.73f / 10.f;
+    monogram_freq['T'] = 8.94f / 10.f;
+    monogram_freq['U'] = 2.68f / 10.f;
+    monogram_freq['V'] = 1.06f / 10.f;
+    monogram_freq['W'] = 1.83f / 10.f;
+    monogram_freq['X'] = 0.19f / 10.f;
+    monogram_freq['Y'] = 1.72f / 10.f;
+    monogram_freq['Z'] = 0.11f / 10.f;
 }
 
 void populate_base64_encode_map()
