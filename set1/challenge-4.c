@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include "encodings.h"
+#include "../common/encodings.h"
 
 #define NUM_LINES 327
 #define HEX_CHARS_PER_LINE 60

@@ -14,6 +14,7 @@ extern char base64_decode_map[256];
 void init_base64_module();
 void populate_base64_encode_map();
 void populate_base64_decode_map();
+void populate_monogram_freq();
 
 char hex_digit_to_int_val(char digit);
 char* parse_hex_string(const char *input);
@@ -22,6 +23,6 @@ char* base64_encode(char *input, size_t input_num_bytes);
 char* base64_decode(char *input, size_t input_num_bytes);
 
 
-char *get_english_digram_score(char *string, size_t length);
+float get_english_score(char *string, size_t length);
 
 #endif

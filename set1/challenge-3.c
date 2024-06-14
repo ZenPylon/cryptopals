@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include "encodings.h"
+#include "../common/encodings.h"
 
 int main(int argc, char **argv)
 {

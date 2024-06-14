@@ -1,4 +1,4 @@
-#include "bytes.h"
+#include "../common/encodings.h"
 
 size_t hamming_distance(char* lbytes, char* rbytes, size_t size)
 {
