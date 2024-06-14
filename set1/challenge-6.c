@@ -133,10 +133,10 @@ int main(int argc, char **argv)
 
     for (size_t i = 0; i < encrypted_input_size; i++)
     {
-        if ()
+        if (key_guesses[i % best_keysize] ^ encrypted_input[i])
         {
-            key_guesses
             printf("%c", key_guesses[i % best_keysize] ^ encrypted_input[i]);
+        }
         
     }
 
