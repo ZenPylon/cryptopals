@@ -77,9 +77,10 @@ int main(int argc, char **argv)
             printf("Passing on keysize %d with distance %f\n", keysize, dist);
         }
     }
+    best_keysize = 5;
 
     // Each bit_block is an array of the nth bit from each keysize block, repeated until the end of the file
-    char **bit_blocks = malloc(best_keysize);
+    char **bit_blocks = malloc(best_keysize * sizeof(char*));
     size_t num_full_blocks = encrypted_input_size / best_keysize;
     size_t extra_bits = encrypted_input_size % best_keysize;
     for (size_t i = 0; i < best_keysize; i++)
