@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "encodings.h"
+#include "../common/encodings.h"
 
 int main(int argc, char **argv)
 {
-    populate_base64_map();
+    init_base64_module();
     const char *input = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d";
 
     size_t input_num_chars = strlen(input);
