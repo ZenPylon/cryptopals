@@ -227,7 +227,7 @@ char *base64_decode(char *input, size_t num_chars)
         exit(EXIT_FAILURE);
     }
 
-    char *output = calloc(num_chars * 4, 1);
+    char *output = calloc(3 * num_chars / 4, 1);
 
     for (size_t i = 0; i < num_chars; i++)
     {
