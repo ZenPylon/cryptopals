@@ -263,7 +263,7 @@ float get_english_score(char *string, size_t length)
     float score = 0.f;
     for (size_t i = 0; i < length; i++)
     {
-        score += monogram_freq[string[i]];
+        score += monogram_freq[(unsigned char)string[i]];
     }
     return score;
 }
