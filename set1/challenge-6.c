@@ -10,7 +10,7 @@
 
 int main(int argc, char **argv)
 {
-    const char filename[] = "challenge-6.txt";
+    const char filename[] = "challenge-6-nonewlines.txt";
     
     // Load file
     struct stat file_stat;
@@ -45,6 +45,10 @@ int main(int argc, char **argv)
     init_base64_module();
     char *encrypted_input = base64_decode(buf, file_stat.st_size);
     size_t encrypted_input_size = 3 * file_stat.st_size / 4;
+    for (size_t i = 0; i < encrypted_input_size; i++)
+    {
+        printf("%c", encrypted_input[i]);
+    }
     
     // Find the best keysize by testing which key produces the most similar stream of bytes.
     // This works because English characters are closer together in the ascii table than a randomly sampled byte.
@@ -77,7 +81,7 @@ int main(int argc, char **argv)
             printf("Passing on keysize %d with distance %f\n", keysize, dist);
         }
     }
-    best_keysize = 5;
+    // best_keysize = 5;
 
     // Each bit_block is an array of the nth bit from each keysize block, repeated until the end of the file
     char **bit_blocks = malloc(best_keysize * sizeof(char*));
@@ -104,7 +108,7 @@ int main(int argc, char **argv)
 
     // One key for each bit in the keysized block
     char *key_guesses = malloc(best_keysize);
-    size_t *best_scores = malloc(best_keysize);
+    float *best_scores = malloc(best_keysize);
 
     // Test every bit block against every possible one byte key, and save the key that 
     // produces the most plausible english output
@@ -129,7 +133,11 @@ int main(int argc, char **argv)
 
     for (size_t i = 0; i < encrypted_input_size; i++)
     {
-        printf("%c", key_guesses[i % best_keysize] ^ encrypted_input[i]);
+        if ()
+        {
+            key_guesses
+            printf("%c", key_guesses[i % best_keysize] ^ encrypted_input[i]);
+        
     }
 
     // Cleanup
