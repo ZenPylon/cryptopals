@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "cstdint": "c",
+        "string.h": "c",
+        "__locale": "c",
+        "encodings.h": "c",
+        "stdlib.h": "c",
+        "bytes.h": "c",
+        "stdio.h": "c",
+        "stat.h": "c",
+        "numbers": "c"
+    },
+    "C_Cpp.default.includePath": [
+        "${workspaceRoot}"
+    ]
+}
