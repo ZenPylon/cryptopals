@@ -35,29 +35,26 @@ int main(int argc, char **argv)
     
     char key[16] = "YELLOW SUBMARINE";
 
-    // The initial value for the cipher
-    char iv[16] = "0123456789abcdef";
-
-    // AES-128-ECB
-    EVP_CIPHER* cipher = EVP_CIPHER_fetch(NULL, "asdf", NULL);
+    EVP_CIPHER* cipher = EVP_CIPHER_fetch(NULL, "AES-128-ECB", NULL);
     EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
     if (ctx == NULL || cipher == NULL)
         goto error;
 
+    // The 0 value means decryption (vs. 1 for encryption)
+    EVP_CipherInit_ex2(ctx, cipher, key, NULL, 0, NULL);
+
     // Make sure the key length and iv length match our expectation    
     OPENSSL_assert(EVP_CIPHER_CTX_get_key_length(ctx) == 16);
-    OPENSSL_assert(EVP_CIPHER_CTX_get_iv_length(ctx) == 16);
+    int iv_size = EVP_CIPHER_CTX_get_iv_length(ctx);
 
     unsigned char *outbuf;
     int outlen;
 
-    // Last parameter set to 0 to indicate decryption (rather than 1 for encryption)
-    if (!EVP_CipherInit_ex2(ctx, cipher, key, iv, 0, NULL))
-        goto error;
 
     if (!EVP_CipherUpdate(ctx, outbuf, &outlen, encrypted_input, encrypted_input_size))
         goto error;
     
+    outbuf = malloc(outlen);
     if (!EVP_CipherFinal_ex(ctx, outbuf, &outlen))
         goto error;
     
@@ -79,5 +76,6 @@ error:
     EVP_CIPHER_free(cipher);
     EVP_CIPHER_CTX_free(ctx);
     free(buf);
+    free(outbuf);
     return errno != 0 || ossl_ret != 0;
 }
