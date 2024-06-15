@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <stdbool.h>
 
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -45,21 +46,19 @@ int main(int argc, char **argv)
 
     // Make sure the key length and iv length match our expectation    
     OPENSSL_assert(EVP_CIPHER_CTX_get_key_length(ctx) == 16);
-    int iv_size = EVP_CIPHER_CTX_get_iv_length(ctx);
-
-    unsigned char *outbuf;
+    unsigned char *outbuf = malloc(encrypted_input_size + 16 - (encrypted_input_size % 16));
     int outlen;
-
 
     if (!EVP_CipherUpdate(ctx, outbuf, &outlen, encrypted_input, encrypted_input_size))
         goto error;
     
-    outbuf = malloc(outlen);
-    if (!EVP_CipherFinal_ex(ctx, outbuf, &outlen))
+    fwrite(outbuf, 1, outlen, stdout);
+    int final_len;
+    if (!EVP_CipherFinal_ex(ctx, outbuf + outlen, &final_len))
         goto error;
-    
-    printf("%s", outbuf);
 
+
+    fwrite(outbuf + outlen, 1, final_len, stdout);
     ossl_ret = 0;
 
 error:
