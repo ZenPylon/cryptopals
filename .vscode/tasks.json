@@ -14,6 +14,7 @@
                 "/usr/local/opt/openssl@3.2/include",
                 "../common/encodings.c",
                 "../common/bytes.c",
+                "../common/padding.c",
                 "-L/usr/local/Cellar/openssl@3/3.2.1/lib/",
                 "-lcrypto",
                 "-lm"
