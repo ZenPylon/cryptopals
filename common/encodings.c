@@ -291,6 +291,12 @@ char * base64_decode_file(char *filename, size_t *outlen)
     }
     
     *outlen = 3 * output_size / 4;
+
+    if (temp_buf[read_bytes - 1] == '=')
+        (*outlen)--;
+    if (temp_buf[read_bytes - 2] == '=')
+        (*outlen)--;
+    
     free(output);
     return base64_decode(output, output_size);
 }
