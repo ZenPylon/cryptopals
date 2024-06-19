@@ -15,6 +15,7 @@
                 "../common/encodings.c",
                 "../common/bytes.c",
                 "../common/padding.c",
+                "../common/cbc.c",
                 "-L/usr/local/Cellar/openssl@3/3.2.1/lib/",
                 "-lcrypto",
                 "-lm"

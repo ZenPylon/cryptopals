@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include <string.h>
 #include "../common/encodings.h"
 
 char base64_encode_map[64] = {0};
@@ -119,7 +120,7 @@ void populate_base64_decode_map()
 char base64_decode_char(char input)
 {
     // 'A' and '=' map to 0. Anything else is an encoding error
-    if (base64_decode_map[input] == 0 && input != 'A' && input != '=' && input != '\n')
+    if (base64_decode_map[input] == 0 && input != 'A' && input != '=')
     {
         fprintf(stderr, "Invalid base64 char\n");
         exit(EXIT_FAILURE);
@@ -254,6 +255,44 @@ char *base64_decode(char *input, size_t num_chars)
         }
     }
     return output;
+}
+
+char * base64_decode_file(char *filename, size_t *outlen)
+{
+    FILE *file = fopen(filename, "r");
+    if (file == NULL)
+        return NULL;
+
+    size_t buf_size = 1024;
+    size_t output_size = 0;
+    char *output = NULL;
+
+    char temp_buf[buf_size];
+    size_t read_bytes = 0;
+    while (!feof(file))
+    {
+        read_bytes = fread(temp_buf, 1, 1024, file);
+        output = reallocf(output, output_size + read_bytes);
+        
+        if (ferror(file) || output == NULL)
+            return NULL;
+        
+        size_t ignored_bytes = 0;
+        for (size_t byte = 0; byte < read_bytes; byte++)
+        {
+            if (temp_buf[byte] == '\n')
+            {
+                ignored_bytes++;
+                continue;
+            }
+            output[output_size + byte - ignored_bytes] = temp_buf[byte];
+        }
+        output_size += read_bytes - ignored_bytes;
+    }
+    
+    *outlen = 3 * output_size / 4;
+    free(output);
+    return base64_decode(output, output_size);
 }
 
 float get_english_score(char *string, size_t length)
