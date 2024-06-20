@@ -1,5 +1,8 @@
+#include <string.h>
+#include <errno.h>
 #include "../common/encodings.h"
 #include "../common/cbc.h"
+
 
 int main(int argc, char **argv)
 {
@@ -9,9 +12,15 @@ int main(int argc, char **argv)
     char *decoded = base64_decode_file("test.txt", &decoded_len);
     
     if (decoded == NULL)
-    {
-        // Fail
-    }
+        goto error;
     
+    
+    ret = 0;
+    
+error:
+    if (errno)
+        fprintf(stderr, strerror(errno));
+
+    free(decoded);
     return ret;
 }

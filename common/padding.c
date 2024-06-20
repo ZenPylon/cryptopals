@@ -1,9 +1,10 @@
 #include "padding.h"
 #include <string.h>
 
-char * pkcs7_pad(char *input, size_t input_len, size_t block_size)
+char * pkcs7_pad(char *input, size_t input_len, size_t block_size, size_t *outlen)
 {
     size_t padding_len = block_size - input_len % block_size;
+    // TODO - use realloc instead
     char *output = malloc(input_len + padding_len);
     memcpy(output, input, input_len);
     if (output == NULL)
@@ -15,5 +16,6 @@ char * pkcs7_pad(char *input, size_t input_len, size_t block_size)
         output[byte] = padding_len;
     }
     
+    *outlen = input_len + padding_len;
     return output;
 }
